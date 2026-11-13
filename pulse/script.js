@@ -519,7 +519,7 @@ async function navigate() {
       }
       item.status ? renderNonFinalDetail(item) : renderDetail(item); $('#breadcrumbs').innerHTML = `Workspace <span>/</span> Projects <span>/</span> ${item.id}`; }
   }
-  if (view === 'overview') $('#breadcrumbs').innerHTML = 'Workspace <span>/</span> Overview';
+  if (view === 'overview') { renderOverview(); $('#breadcrumbs').innerHTML = 'Workspace <span>/</span> Overview'; }
   if (view === 'projects') {
     const params = new URLSearchParams(routeQuery);
     const requestedClient = params.get('client');
@@ -559,12 +559,8 @@ async function startPulses() {
     if (window.pulsesReady) await window.pulsesReady;
     allCases.splice(0, allCases.length, ...cases, ...nonFinalCases);
     hydrateIcons();
-    renderOverview();
-    renderPMs();
-    renderClients();
     renderExportSubject();
     renderFilterMenus();
-    renderProjects();
     navigate();
   } catch (error) {
     document.querySelector('.main-area').innerHTML = '<main class="audit-card"><h1>Pulses is temporarily unavailable</h1><p>' + h(error.message) + '</p></main>';
